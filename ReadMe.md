@@ -16,7 +16,18 @@ Dependencies: See `pom.xml` for specific dependencies
 
 run `runner/SearchGadgetChains.main`
 
+### Why create this repo
+当我使用原仓库代码的时候，将代码导入IDEA之后在使用上发生了一些问题，导致IDEA没有办法正常的识别入口的Main类，同时在Windows环境下使用也会有一定的目录问题（原论文试验环境是Ubuntu）。
+于是我在原始仓库代码上进行了目录重构，改了一行处理jdk目录的源码，现在的代码可以直接clone到本地，且可以使用IDEA打开并运行（Windows环境下）。
 
+后续也许会基于该项目做拓展开发。
+
+//English Vserse
+
+When I used the code from the original repository and imported it into IDEA, I encountered some issues that prevented IDEA from properly recognizing the Main class as the entry point. Additionally, there were certain directory problems when using it in a Windows environment (the original experimental environment was Ubuntu).
+As a result, I performed directory restructuring on the original repository code and made a modification to the source code for handling the JDK directory. Now, the updated code can be cloned directly to the local machine and can be opened and run using IDEA (in a Windows environment).
+
+There might be future plans to extend and develop upon this project.
 ### Configuration item description
 - inputPath: test project path
 - outputDir: output directory. E.g. IOCDs
@@ -62,67 +73,7 @@ Some of the fragments detected by JDD can be generalized across different deseri
 
 We've recently refactored JDD, resulting in improved performance in some applications. However, some features remain unstable, and we are actively working on fixing them.
 
-### Datasets
-- If you need the dataset, please send us an email (bfchen22@m.fudan.edu.cn) with the purpose. Thanks for understanding.
+### Details
+See more details in original repository.
 
-In the email, please include a justification letter (PDF format) on official letterhead. 
-The justification letter needs to acknowledge the “JDD” project from Fudan University and clearly state the reason for requesting the dataset. 
-Also, confirm that the dataset will not be shared with others without our permission. We emphasize that we will ignore emails that do not follow the above instructions.
-
-### CVEs Assigned
-- CVE-2023-29234
-- CVE-2023-35839
-- CVE-2023-39131
-- CVE-2023-48967
-- CVE-2024-23636
-- CVE-2023-41331
-- ...
-
-
-### A proof-of-concept tool
-We also produce a proof-of-concept tool for generating payloads that exploit unsafe Java object deserialization. You can build on this tool to understand payload construction more easily.
-This software was created purely for the purpose of academic research and the development of effective defense techniques. It is also forbidden to use it for any illegal attack or profit.
-The link is: https://github.com/BofeiC/JDD-PocLearning
-
-### Test Example
-The test applications are located in the `testExample` directory. You can change the test application by changing the `inputPath` in the configuration file.
-
-test application example 1: `Groovy`
-```
-sun.reflect.'annotation'.AnnotationInvocationHandler: void readObject(java.io.ObjectInputStream)
-Proxy Map: entrySet()
-org.codehaus.groovy.runtime.ConversionHandler: java.lang.Object invoke(java.lang.Object,java.lang.reflect.Method,java.lang.Object[])
-org.codehaus.groovy.runtime.ConvertedClosure: java.lang.Object invokeCustom(java.lang.Object,java.lang.reflect.Method,java.lang.Object[])
-groovy.lang.Closure: java.lang.Object call(java.lang.Object[])
-```
-One of unknown gadget chain detected by JDD.
-```
-java.util.concurrent.ConcurrentHashMap: void readObject(java.io.ObjectInputStream)
-groovy.lang.GString: int hashCode()
-groovy.lang.GString: java.lang.String toString()
-groovy.lang.GString: java.io.Writer writeTo(java.io.Writer)
-groovy.lang.Closure: java.lang.Object call()
-```
-In this application, JDD detected gadget chains that do not require the dynamic proxy feature, which expands the range of protocols that can be attacked. The known gadget chain could only be used in protocols that support dynamic proxies (e.g. JDK, but could not be used in Hessian).
-
-
-test application example 2: `Vaadin`
-Known chain
-```
-javax.management.BadAttributeValueExpException: void readObject(java.io.ObjectInputStream)
-com.vaadin.data.util.PropertysetItem: java.lang.String toString()
-com.vaadin.data.util.NestedMethodProperty: java.lang.Object getValue()
-java.lang.reflect.Method: java.lang.Object invoke(java.lang.Object,java.lang.Object[])
-```
-One of unknown gadget chain detected by JDD.
-```
-java.util.concurrent.ConcurrentHashMap: void readObject(java.io.ObjectInputStream)
-java.util.AbstractMap$SimpleEntry: boolean equals(java.lang.Object)
-java.util.AbstractMap: boolean access$000(java.lang.Object,java.lang.Object)
-java.util.AbstractMap: boolean eq(java.lang.Object,java.lang.Object)
-com.sun.org.apache.xpath.internal.objects.XStringForFSB: boolean equals(java.lang.Object)
-com.vaadin.data.util.AbstractProperty: java.lang.String toString()
-com.vaadin.data.util.LegacyPropertyHelper: java.lang.String legacyPropertyToString(com.vaadin.data.Property)
-com.vaadin.data.util.MethodProperty: java.lang.Object getValue()
-java.lang.reflect.Method: java.lang.Object invoke(java.lang.Object,java.lang.Object[])
-```
+https://github.com/fdu-sec/JDD
